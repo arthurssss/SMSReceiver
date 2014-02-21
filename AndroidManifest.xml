@@ -4,25 +4,39 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="5"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-
+    
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" /> <!-- 接收短信权限 -->
     <uses-permission android:name="android.permission.SEND_SMS" /> <!-- 发送短信权限 -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+		<activity
+			android:name="com.arthur.smsreceiver.activity.SmsActivity"
+			android:label="@string/app_name" >
+		    <intent-filter>
+		        <action android:name="android.intent.action.MAIN" />
+		        <category android:name="android.intent.category.LAUNCHER" />
+		    </intent-filter>
+		</activity>
        
-        <!-- 这是隐式的设置receiver 我们做的这个拦截器需要这样去做 -->
-        <receiver android:name=".broadcast.SmsReceiver" >
-            <intent-filter android:priority="1000" > <!-- 将优先级设到最大 -->
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
+		<receiver
+		    android:name="com.arthur.smsreceiver.broadcast.SmsBootReceiver">
+		    <intent-filter android:priority="2147483647">
+		        <action android:name="android.intent.action.BOOT_COMPLETED" />
+		    </intent-filter>
+		</receiver>
+        
+		<service android:name="com.arthur.smsreceiver.service.SmsService">
+		</service>
+        
     </application>
 
 </manifest>
